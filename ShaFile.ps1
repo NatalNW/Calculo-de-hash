@@ -15,7 +15,20 @@ function Get-FileSHA1($filePath) {
     return $hexaHash.ToString()
 }
 function Get-FileSHA256() {
+    $fileContent = Get-Content $filePath
+    $fileBytes = [System.Text.Encoding]::UTF8.GetBytes($fileContent)
 
+    $sha = New-Object System.Security.Cryptography.SHA256Managed
+    $hash = $sha.ComputeHash($fileBytes)
+
+    $hexaHash = New-Object System.Text.StringBuilder
+
+    foreach ($byte in $hash) {
+        $hexaNotation = $byte.ToString("X2")
+        $hexaHash.Append($hexaNotation) > $null
+    }
+
+    return $hexaHash.ToString()
 }
 function Get-FileSHA384() {
 
