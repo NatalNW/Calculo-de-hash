@@ -37,8 +37,8 @@ function Get-FileSHA512() {
 
 }
 
-$file = "C:\Users\natanael.weslley\Desktop\Calculo-de-hash\ShaFile.ps1"
-$hashFile = Get-FileSHA1 $file
+# $file = "C:\Users\natanael.weslley\Desktop\Calculo-de-hash\ShaFile.ps1"
+# $hashFile = Get-FileSHA1 $file
 
 
-Write-Host $hashFile -BackgroundColor Red -ForegroundColor Yellow
+# Write-Host $hashFile -BackgroundColor Red -ForegroundColor Yellow
