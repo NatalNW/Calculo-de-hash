@@ -1,37 +1,41 @@
-function Get-FileSHA1($filePath) {
+function Get-FileSHA1() {
 
-    if ($filePath -ne $null) {
+    param(
+        [Parameter(
+            ValueFromPipeline = $true,
+            ValueFromPipelineByPropertyName = "FullName",
+            Mandatory = $true
+        )]
+        [string] $filePath
+    )
+    
+    begin {
+        $sha = New-Object System.Security.Cryptography.SHA1Managed
+        $hexaHash = New-Object System.Text.StringBuilder
+
+    }
+
+    process {
         $fileContent = Get-Content $item
         $fileBytes = [System.Text.Encoding]::UTF8.GetBytes($fileContent)
         
-        $sha = New-Object System.Security.Cryptography.SHA1Managed
+        
         $hash = $sha.ComputeHash($fileBytes)
 
-        $hexaHash = New-Object System.Text.StringBuilder
 
         foreach ($byte in $hash) {
             $hexaNotation = $byte.ToString("X2")
             $hexaHash.Append($hexaNotation) > $null
         }
+
+        $hexaHash.ToString()
+
+        $hexaHash.Clear() > $null
     }
-    else {      
-        foreach ($item in $input) {        
-            $fileContent = Get-Content $item
-            $fileBytes = [System.Text.Encoding]::UTF8.GetBytes($fileContent)
-        
-            $sha = New-Object System.Security.Cryptography.SHA1Managed
-            $hash = $sha.ComputeHash($fileBytes)
-        
-            $hexaHash = New-Object System.Text.StringBuilder
-        
-            foreach ($byte in $hash) {
-                $hexaNotation = $byte.ToString("X2")
-                $hexaHash.Append($hexaNotation) > $null
-            }
-        }
+
+    end {
+        $sha.Dispose()
     }
-    
-    return $hexaHash.ToString()
 }
 function Get-FileSHA256() {
     $fileContent = Get-Content $filePath
